@@ -1,0 +1,198 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Add / Remove admin users &#8212; The Littlest JupyterHub v0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Estimate Memory / CPU / Disk needed" href="resource-estimation.html" />
+    <link rel="prev" title="Let users choose a password when they first log in" href="../auth/firstuse.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="add-remove-admin-users">
+<span id="howto-admin-admin-users"></span><h1>Add / Remove admin users<a class="headerlink" href="#add-remove-admin-users" title="Permalink to this headline">¶</a></h1>
+<p>Admin users in TLJH have the following powers:</p>
+<ol class="arabic simple">
+<li>Full root access to the server with passwordless <code class="docutils literal notranslate"><span class="pre">sudo</span></code>.
+This lets them do literally whatever they want in the server</li>
+<li>Access servers / home directories of all other users</li>
+<li>Install new packages for everyone with <code class="docutils literal notranslate"><span class="pre">conda</span></code>, <code class="docutils literal notranslate"><span class="pre">pip</span></code> or <code class="docutils literal notranslate"><span class="pre">apt</span></code></li>
+<li>Change configuration of TLJH</li>
+</ol>
+<p>This is a lot of power, so make sure you know who you are giving it
+to. Admin users should have decent passwords / secure logni mechanisms,
+so attackers can not easily gain control of the system.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">You should make sure an admin user is present when you <strong>install</strong> TLJH
+the very first time. The <code class="docutils literal notranslate"><span class="pre">:ref:`--admin</span> <span class="pre">&lt;topic/customizing-installer/admin&gt;`</span></code>
+flag passed to the installer does this. If you had forgotten to do so, the
+easiest way to fix this is to run the installer again.</p>
+</div>
+<div class="section" id="adding-admin-users-from-the-jupyterhub-interface">
+<h2>Adding admin users from the JupyterHub interface<a class="headerlink" href="#adding-admin-users-from-the-jupyterhub-interface" title="Permalink to this headline">¶</a></h2>
+<p>There are two primary user interfaces for doing work on your JupyterHub. By
+default, this is the Notebook Interface, and will be used in this section.
+If you are using JupyterLab, you can access the Notebook Interface by replacing
+<code class="docutils literal notranslate"><span class="pre">/lab</span></code> with <code class="docutils literal notranslate"><span class="pre">/tree</span></code> in your URL.</p>
+<ol class="arabic">
+<li><p class="first">First, navigate to the Jupyter Notebook interface home page. You can do this
+by going to the URL <code class="docutils literal notranslate"><span class="pre">&lt;my-hub-url&gt;/user/&lt;my-username&gt;/tree</span></code>.</p>
+</li>
+<li><p class="first">Open the <strong>Control Panel</strong> by clicking the control panel button on the top
+right of your JupyterHub.</p>
+<img alt="Control panel button in notebook, top right" src="../../_images/control-panel-button.png" />
+</li>
+<li><p class="first">In the control panel, open the <strong>Admin</strong> link in the top left.</p>
+<img alt="Admin button in control panel, top left" src="../../_images/admin-access-button.png" />
+<p>This opens up the JupyterHub admin page, where you can add / delete users,
+start / stop peoples’ servers and see who is online.</p>
+</li>
+<li><p class="first">Click the <strong>Add Users</strong> button.</p>
+<img alt="Add Users button in the admin page" src="../../_images/add-users-button.png" />
+<p>A <strong>Add Users</strong> dialog box opens up.</p>
+</li>
+<li><p class="first">Type the names of users you want to add to this JupyterHub in the dialog box,
+one per line. <strong>Make sure to tick the Admin checkbox</strong>.</p>
+<img alt="Adding users with add users dialog" src="../../_images/add-users-dialog.png" />
+</li>
+<li><p class="first">Click the <strong>Add Users</strong> button in the dialog box. Your users are now added
+to the JupyterHub with administrator privileges!</p>
+</li>
+</ol>
+</div>
+<div class="section" id="adding-admin-users-from-the-command-line">
+<h2>Adding admin users from the command line<a class="headerlink" href="#adding-admin-users-from-the-command-line" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes it is easier to add or remove admin users from the command line (for
+example, if you forgot to add an admin user when first setting up your JupyterHub).</p>
+<div class="section" id="adding-new-admin-users">
+<h3>Adding new admin users<a class="headerlink" href="#adding-new-admin-users" title="Permalink to this headline">¶</a></h3>
+<p>New admin users can be added by executing the following commands on an
+admin terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo -E tljh-config add-item users.admin &lt;username&gt;
+sudo -E tljh-config reload
+</pre></div>
+</div>
+<p>If the user is already using the JupyterHub, they might have to stop and
+start their server from the control panel to gain new powers.</p>
+</div>
+<div class="section" id="removing-admin-users">
+<h3>Removing admin users<a class="headerlink" href="#removing-admin-users" title="Permalink to this headline">¶</a></h3>
+<p>You can remove an existing admin user by executing the following commands in
+an admin terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo -E tljh-config remove-item users.admin &lt;username&gt;
+sudo -E tljh-config reload
+</pre></div>
+</div>
+<p>If the user is already using the JupyterHub, they will continue to have
+some of their admin powers until their server is stopped. Another admin
+can force their server to stop by clicking ‘Stop Server’ in the admin
+panel.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">The Littlest JupyterHub</a></h1>
+
+
+
+<p class="blurb">
+    A simple JupyterHub distribution for 1-100 users
+    <br /> <br />
+    <strong>Documentation confusing?</strong> <a href="https://github.com/jupyterhub/the-littlest-jupyterhub/issues">File an issue!</a>
+    </p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=jupyterhub&repo=the-littlest-jupyterhub&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../auth/firstuse.html" title="previous chapter">Let users choose a password when they first log in</a></li>
+      <li>Next: <a href="resource-estimation.html" title="next chapter">Estimate Memory / CPU / Disk needed</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, JupyterHub Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../../_sources/howto/admin/admin-users.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/jupyterhub/the-littlest-jupyterhub" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

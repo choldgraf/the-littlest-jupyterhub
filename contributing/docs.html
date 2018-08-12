@@ -1,0 +1,319 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Writing documentation &#8212; The Littlest JupyterHub v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Code Review guidelines" href="code-review.html" />
+    <link rel="prev" title="Troubleshooting issues on Google Cloud" href="../troubleshooting/providers/google.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="writing-documentation">
+<span id="contributing-docs"></span><h1>Writing documentation<a class="headerlink" href="#writing-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Heavily inspired by the
+<a class="reference external" href="https://docs.djangoproject.com/en/dev/internals/contributing/writing-documentation/">django project’s guidelines</a></p>
+</div>
+<p>We place a high importance on consistency, readability and completeness of documentation.
+If a feature is not documented, it does not exist. If a behavior is not documented,
+it is a bug! We try to treat our
+documentation like we treat our code: we aim to improve it as often as
+possible.</p>
+<p>Documentation changes generally come in two forms:</p>
+<ul class="simple">
+<li>General improvements: typo corrections, error fixes and better
+explanations through clearer writing and more examples.</li>
+<li>New features: documentation of features that have been added to the
+framework since the last release.</li>
+</ul>
+<p>This section explains how writers can craft their documentation changes
+in the most useful and least error-prone ways.</p>
+<div class="section" id="getting-the-raw-documentation">
+<h2>Getting the raw documentation<a class="headerlink" href="#getting-the-raw-documentation" title="Permalink to this headline">¶</a></h2>
+<p>Though TLJH’s documentation is intended to be read as HTML at
+<a class="reference external" href="https://the-littlest-jupyterhub.readthedocs.io/">https://the-littlest-jupyterhub.readthedocs.io/</a>, we edit it as a collection of text files for
+maximum flexibility. These files live in the top-level <code class="docutils literal notranslate"><span class="pre">docs/</span></code> directory of
+TLJH’s repository.</p>
+<p>If you’d like to start contributing to our docs, get the development version of
+TLJH from the source code repository. The development version has the
+latest-and-greatest documentation, just as it has latest-and-greatest code.</p>
+</div>
+<div class="section" id="getting-started-with-sphinx">
+<h2>Getting started with Sphinx<a class="headerlink" href="#getting-started-with-sphinx" title="Permalink to this headline">¶</a></h2>
+<p>TLJH’s documentation uses the <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a> documentation system, which in turn
+is based on <a class="reference external" href="http://docutils.sourceforge.net/">docutils</a>. The basic idea is that lightly-formatted plain-text
+documentation is transformed into HTML, PDF, and any other output format.</p>
+<p>To build the documentation locally, install Sphinx:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install Sphinx
+</pre></div>
+</div>
+<p>Then from the <code class="docutils literal notranslate"><span class="pre">docs</span></code> directory, build the HTML:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> make html
+</pre></div>
+</div>
+<p>To get started contributing, you’ll want to read the <a class="reference external" href="http://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html#rst-index" title="(in Sphinx v1.8.0+)"><span class="xref std std-ref">reStructuredText
+reference</span></a></p>
+<p>Your locally-built documentation will be themed differently than the
+documentation at <a class="reference external" href="https://the-littlest-jupyterhub.readthedocs.io">the-littlest-jupyterhub.readthedocs.io</a>.
+This is OK! If your changes look good on your local machine, they’ll look good
+on the website.</p>
+</div>
+<div class="section" id="how-the-documentation-is-organized">
+<h2>How the documentation is organized<a class="headerlink" href="#how-the-documentation-is-organized" title="Permalink to this headline">¶</a></h2>
+<p>The documentation is organized into several categories:</p>
+<ul>
+<li><p class="first"><strong>Tutorials</strong> take the reader by the hand through a series
+of steps to create something.</p>
+<p>The important thing in a tutorial is to help the reader achieve something
+useful, preferably as early as possible, in order to give them confidence.</p>
+<p>Explain the nature of the problem we’re solving, so that the reader
+understands what we’re trying to achieve. Don’t feel that you need to begin
+with explanations of how things work - what matters is what the reader does,
+not what you explain. It can be helpful to refer back to what you’ve done and
+explain afterwards.</p>
+<p><strong>Installation Tutorials</strong> are a special subcategory of tutorials that
+teach the user how to install TLJH in various cloud providers / bare metal
+systems. These should cross-link a lot to other parts of the documentation,
+avoid forcing the user to learn to SSH if possible &amp; have lots of screenshots.</p>
+</li>
+<li><p class="first"><strong>Topic guides</strong> aim to explain a concept or subject at a
+fairly high level.</p>
+<p>Link to reference material rather than repeat it. Use examples and don’t be
+reluctant to explain things that seem very basic to you - it might be the
+explanation someone else needs.</p>
+<p>Providing background context helps a newcomer connect the topic to things
+that they already know.</p>
+</li>
+<li><p class="first"><strong>Reference guides</strong> contain technical reference for APIs.
+They describe the functioning of TLJH’s internal machinery and instruct in
+its use.</p>
+<p>Keep reference material tightly focused on the subject. Assume that the
+reader already understands the basic concepts involved but needs to know or
+be reminded of how TLJH does it.</p>
+<p>Reference guides aren’t the place for general explanation. If you find
+yourself explaining basic concepts, you may want to move that material to a
+topic guide.</p>
+</li>
+<li><p class="first"><strong>How-to guides</strong> are recipes that take the reader through
+steps in key subjects.</p>
+<p>What matters most in a how-to guide is what a user wants to achieve.
+A how-to should always be result-oriented rather than focused on internal
+details of how TLJH implements whatever is being discussed.</p>
+<p>These guides are more advanced than tutorials and assume some knowledge about
+how TLJH works. Assume that the reader has followed the tutorials and don’t
+hesitate to refer the reader back to the appropriate tutorial rather than
+repeat the same material.</p>
+</li>
+<li><p class="first"><strong>Troubleshooting guides</strong> help reader answer the question “Why is my JupyterHub
+not working?”.</p>
+<p>These guides help readers try find causes for their symptoms, and hopefully fix
+the issues. Some of these need to be specific to cloud providers, and that is
+acceptable.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="writing-style">
+<h2>Writing style<a class="headerlink" href="#writing-style" title="Permalink to this headline">¶</a></h2>
+<p>When using pronouns in reference to a hypothetical person, such as “a user with
+a running notebook”, gender neutral pronouns (they/their/them) should be used.
+Instead of:</p>
+<ul class="simple">
+<li>he or she… use they.</li>
+<li>him or her… use them.</li>
+<li>his or her… use their.</li>
+<li>his or hers… use theirs.</li>
+<li>himself or herself… use themselves.</li>
+</ul>
+</div>
+<div class="section" id="commonly-used-terms">
+<h2>Commonly used terms<a class="headerlink" href="#commonly-used-terms" title="Permalink to this headline">¶</a></h2>
+<p>Here are some style guidelines on commonly used terms throughout the
+documentation:</p>
+<ul class="simple">
+<li><strong>TLJH</strong> – common abbreviation of The Littlest JupyterHub. Fully
+capitalized except when used in code / the commandline.</li>
+<li><strong>Python</strong> – when referring to the language, capitalize Python.</li>
+<li><strong>Notebook Interface</strong> – generic term for referring to JupyterLab,
+nteract, classic notebook &amp; other user interfaces for accessing</li>
+</ul>
+</div>
+<div class="section" id="guidelines-for-restructuredtext-files">
+<h2>Guidelines for reStructuredText files<a class="headerlink" href="#guidelines-for-restructuredtext-files" title="Permalink to this headline">¶</a></h2>
+<p>These guidelines regulate the format of our reST (reStructuredText)
+documentation:</p>
+<ul>
+<li><p class="first">In section titles, capitalize only initial words and proper nouns.</p>
+</li>
+<li><p class="first">Wrap the documentation at 120 characters wide, unless a code example
+is significantly less readable when split over two lines, or for another
+good reason.</p>
+</li>
+<li><p class="first">Use these heading styles:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">===</span>
+<span class="n">One</span>
+<span class="o">===</span>
+
+<span class="n">Two</span>
+<span class="o">===</span>
+
+<span class="n">Three</span>
+<span class="o">-----</span>
+
+<span class="n">Four</span>
+<span class="o">~~~~</span>
+
+<span class="n">Five</span>
+<span class="o">^^^^</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="documenting-new-features">
+<h2>Documenting new features<a class="headerlink" href="#documenting-new-features" title="Permalink to this headline">¶</a></h2>
+<p>Our policy for new features is:</p>
+<blockquote>
+<div>All new features must have appropriate documentation before they
+can be merged.</div></blockquote>
+</div>
+<div class="section" id="minimizing-images">
+<h2>Minimizing images<a class="headerlink" href="#minimizing-images" title="Permalink to this headline">¶</a></h2>
+<p>Optimize image compression where possible. For PNG files, use OptiPNG and
+AdvanceCOMP’s <code class="docutils literal notranslate"><span class="pre">advpng</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> docs
+<span class="gp">$</span> optipng -o7 -zm1-9 -i0 -strip all <span class="sb">`</span>find . -type f -not -path <span class="s2">&quot;./_build/*&quot;</span> -name <span class="s2">&quot;*.png&quot;</span><span class="sb">`</span>
+<span class="gp">$</span> advpng -z4 <span class="sb">`</span>find . -type f -not -path <span class="s2">&quot;./_build/*&quot;</span> -name <span class="s2">&quot;*.png&quot;</span><span class="sb">`</span>
+</pre></div>
+</div>
+<p>This is based on OptiPNG version 0.7.5. Older versions may complain about the
+<code class="docutils literal notranslate"><span class="pre">--strip</span> <span class="pre">all</span></code> option being lossy.</p>
+</div>
+<div class="section" id="spelling-check">
+<h2>Spelling check<a class="headerlink" href="#spelling-check" title="Permalink to this headline">¶</a></h2>
+<p>Before you commit your docs, it’s a good idea to run the spelling checker.
+You’ll need to install a couple packages first:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://pypi.org/project/pyenchant/">pyenchant</a> (which requires
+<a class="reference external" href="https://www.abisource.com/projects/enchant/">enchant</a>)</li>
+<li><a class="reference external" href="https://pypi.org/project/sphinxcontrib-spelling/">sphinxcontrib-spelling</a></li>
+</ul>
+<p>Then from the <code class="docutils literal notranslate"><span class="pre">docs</span></code> directory, run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">spelling</span></code>. Wrong words (if any)
+along with the file and line number where they occur will be saved to
+<code class="docutils literal notranslate"><span class="pre">_build/spelling/output.txt</span></code>.</p>
+<p>If you encounter false-positives (error output that actually is correct), do
+one of the following:</p>
+<ul class="simple">
+<li>Surround inline code or brand/technology names with grave accents (`).</li>
+<li>Find synonyms that the spell checker recognizes.</li>
+<li>If, and only if, you are sure the word you are using is correct - add it
+to <code class="docutils literal notranslate"><span class="pre">docs/spelling_wordlist</span></code> (please keep the list in alphabetical order).</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">The Littlest JupyterHub</a></h1>
+
+
+
+<p class="blurb">
+    A simple JupyterHub distribution for 1-100 users
+    <br /> <br />
+    <strong>Documentation confusing?</strong> <a href="https://github.com/jupyterhub/the-littlest-jupyterhub/issues">File an issue!</a>
+    </p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=jupyterhub&repo=the-littlest-jupyterhub&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../troubleshooting/providers/google.html" title="previous chapter">Troubleshooting issues on Google Cloud</a></li>
+      <li>Next: <a href="code-review.html" title="next chapter">Code Review guidelines</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, JupyterHub Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/contributing/docs.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/jupyterhub/the-littlest-jupyterhub" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

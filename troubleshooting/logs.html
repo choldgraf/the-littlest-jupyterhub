@@ -1,0 +1,205 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Looking at Logs &#8212; The Littlest JupyterHub v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Troubleshooting issues on Google Cloud" href="providers/google.html" />
+    <link rel="prev" title="Frequently Asked Questions (FAQ)" href="../faq.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="looking-at-logs">
+<span id="troubleshooting-logs"></span><h1>Looking at Logs<a class="headerlink" href="#looking-at-logs" title="Permalink to this headline">¶</a></h1>
+<p><strong>Logs</strong> are extremely useful in piecing together what went wrong when things go wrong.
+They contain a forensic record of what individual pieces of software were doing
+before things went bad, and can help us understand the problem so we can fix it.</p>
+<p>TLJH collects logs from JupyterHub, Configurable HTTP Proxy, &amp; from each individual
+user’s notebook server. All the logs are accessible via <a class="reference external" href="https://www.freedesktop.org/software/systemd/man/journalctl.html">journalctl</a>.
+The installer also writes logs to disk, to help with cases where the
+installer did not succeed.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If you are providing a snippet from the logs to someone else to help debug
+a problem you might have, be careful to redact any private information (such
+as usernames) from the snippet first!</p>
+</div>
+<div class="section" id="installer-logs">
+<span id="troubleshooting-logs-installer"></span><h2>Installer Logs<a class="headerlink" href="#installer-logs" title="Permalink to this headline">¶</a></h2>
+<p>The JupyterHub installer writes log messages to <code class="docutils literal notranslate"><span class="pre">/opt/tljh/installer.log</span></code>.
+This is very useful if the installation fails for any reason.</p>
+</div>
+<div class="section" id="jupyterhub-logs">
+<span id="troubleshoot-logs-jupyterhub"></span><h2>JupyterHub Logs<a class="headerlink" href="#jupyterhub-logs" title="Permalink to this headline">¶</a></h2>
+<p>JupyterHub is responsible for user authentication, &amp; starting / stopping user
+notebook servers. When there is a general systemic issue with JupyterHub (rather
+than a specific issue with a particular user’s notebook), looking at the JupyterHub
+logs is a great first step.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo journalctl -u jupyterhub
+</pre></div>
+</div>
+<p>This command displays logs from JupyterHub itself. See <a class="reference internal" href="#journalctl-tips"><span class="std std-ref">journalctl tips</span></a>
+for tips on navigating the logs.</p>
+</div>
+<div class="section" id="configurable-http-proxy-logs">
+<h2>Configurable HTTP Proxy Logs<a class="headerlink" href="#configurable-http-proxy-logs" title="Permalink to this headline">¶</a></h2>
+<p>Configurable HTTP Proxy redirects traffic to JupyterHub / user notebook servers
+as necessary &amp; handles HTTPS. It usually is the least problematic of the components,
+but things do go wrong sometimes!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo journalctl -u configurable-http-proxy
+</pre></div>
+</div>
+<p>This command displays logs from Configurable HTTP Proxy. See <a class="reference internal" href="#journalctl-tips"><span class="std std-ref">journalctl tips</span></a>
+for tips on navigating the logs.</p>
+</div>
+<div class="section" id="user-server-logs">
+<h2>User Server Logs<a class="headerlink" href="#user-server-logs" title="Permalink to this headline">¶</a></h2>
+<p>Each user gets their own notebook server, and this server also produces logs.
+Looking at these can be useful when a user can launch their server but run into
+problems after that.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo journalctl -u jupyter-&lt;name-of-user&gt;
+</pre></div>
+</div>
+<p>This command displays logs from the given user’s notebook server. You can get a
+list of all users from the “users” button at the top-right of the Admin page.
+See <a class="reference internal" href="#journalctl-tips"><span class="std std-ref">journalctl tips</span></a> for tips on navigating the logs.</p>
+</div>
+<div class="section" id="journalctl-tips">
+<span id="id1"></span><h2>journalctl tips<a class="headerlink" href="#journalctl-tips" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">journalctl</span></code> has a lot of options to make your life as an administrator
+easier. Here are some very basic tips on effective <code class="docutils literal notranslate"><span class="pre">journalctl</span></code> usage.</p>
+<ol class="arabic">
+<li><p class="first">When looking at full logs (via <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">journalctl</span> <span class="pre">-u</span> <span class="pre">&lt;some-name&gt;</span></code>), the output
+usually does not fit into one screen. Hence, it is <em>paginated</em> with
+<a class="reference external" href="https://en.wikipedia.org/wiki/Less_(Unix)">less</a>. This allows you to
+scroll up / down, search for specific words, etc. Some common keyboard shortcuts
+are:</p>
+<ul class="simple">
+<li>Arrow keys to move up / down / left / right</li>
+<li><code class="docutils literal notranslate"><span class="pre">G</span></code> to navigate to the end of the logs</li>
+<li><code class="docutils literal notranslate"><span class="pre">g</span></code> to navigate to the start of the logs</li>
+<li><code class="docutils literal notranslate"><span class="pre">/</span></code> followed by a string to search for &amp; <code class="docutils literal notranslate"><span class="pre">enter</span></code> key to search the logs
+from current position on screen to the end of the logs. If there are multiple
+results, you can use <code class="docutils literal notranslate"><span class="pre">n</span></code> key to jump to the next search result. Use <code class="docutils literal notranslate"><span class="pre">?</span></code>
+instead of <code class="docutils literal notranslate"><span class="pre">/</span></code> to search backwards from current position</li>
+<li><code class="docutils literal notranslate"><span class="pre">q</span></code> or <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">C</span></code> to exit</li>
+</ul>
+<p>There are plenty of <a class="reference external" href="https://linux.die.net/man/1/less">other commands &amp; options</a>
+to explore if you wish.</p>
+</li>
+<li><p class="first">Add <code class="docutils literal notranslate"><span class="pre">-f</span></code> to any <code class="docutils literal notranslate"><span class="pre">journalctl</span></code> command to view live logging output
+that updates as new log lines are written. This is extremely useful when
+actively debugging an issue.</p>
+<p>For example, to watch live logs of JupyterHub, you can run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo journalctl -u jupyterhub -f
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">The Littlest JupyterHub</a></h1>
+
+
+
+<p class="blurb">
+    A simple JupyterHub distribution for 1-100 users
+    <br /> <br />
+    <strong>Documentation confusing?</strong> <a href="https://github.com/jupyterhub/the-littlest-jupyterhub/issues">File an issue!</a>
+    </p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=jupyterhub&repo=the-littlest-jupyterhub&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../faq.html" title="previous chapter">Frequently Asked Questions (FAQ)</a></li>
+      <li>Next: <a href="providers/google.html" title="next chapter">Troubleshooting issues on Google Cloud</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, JupyterHub Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/troubleshooting/logs.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/jupyterhub/the-littlest-jupyterhub" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

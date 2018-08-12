@@ -1,0 +1,199 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Adding data to the JupyterHub &#8212; The Littlest JupyterHub v0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Share data with your users" href="share-data.html" />
+    <link rel="prev" title="Distributing materials to users with nbgitpuller" href="nbgitpuller.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="adding-data-to-the-jupyterhub">
+<span id="howto-content-add-data"></span><h1>Adding data to the JupyterHub<a class="headerlink" href="#adding-data-to-the-jupyterhub" title="Permalink to this headline">¶</a></h1>
+<p>This section covers how to add data to your JupyterHub either from the internet
+or from your own machine. To learn how to <strong>share data</strong> that is already
+on your JupyterHub, see <a class="reference internal" href="share-data.html#howto-content-share-data"><span class="std std-ref">Share data with your users</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When you add data using the methods on this page, you will <strong>only add it
+to your user directory</strong>. This is not a place that is accessible to others.
+For information on sharing this data with users on the JupyterHub, see
+<a class="reference internal" href="share-data.html#howto-content-share-data"><span class="std std-ref">Share data with your users</span></a>.</p>
+</div>
+<div class="section" id="adding-data-from-your-local-machine">
+<h2>Adding data from your local machine<a class="headerlink" href="#adding-data-from-your-local-machine" title="Permalink to this headline">¶</a></h2>
+<p>The easiest way to add data to your JupyterHub is to use the “Upload” user
+interface. To do so, follow these steps:</p>
+<ol class="arabic">
+<li><p class="first">First, navigate to the Jupyter Notebook interface home page. You can do this
+by going to the URL <code class="docutils literal notranslate"><span class="pre">&lt;my-hub-url&gt;/user/&lt;my-username&gt;/tree</span></code>.</p>
+</li>
+<li><p class="first">Click the “Upload” button to open the file chooser window.</p>
+<img alt="The upload button in Jupyter." src="../../_images/upload-button.png" />
+</li>
+<li><p class="first">Choose the file you wish to upload. You may select multiple files if you
+wish.</p>
+</li>
+<li><p class="first">Click “Upload” for each file that you wish to upload.</p>
+<img alt="Multiple file upload buttons." src="../../_images/file-upload-buttons.png" />
+</li>
+<li><p class="first">Wait for the progress bar to finish for each file. These files will now
+be on your JupyterHub, your home user’s home directory.</p>
+</li>
+</ol>
+<p>To learn how to <strong>share</strong> this data with new users on the JupyterHub,
+see <a class="reference internal" href="share-data.html#howto-content-share-data"><span class="std std-ref">Share data with your users</span></a>.</p>
+</div>
+<div class="section" id="downloading-data-from-the-command-line">
+<h2>Downloading data from the command line<a class="headerlink" href="#downloading-data-from-the-command-line" title="Permalink to this headline">¶</a></h2>
+<p>If the data of interest is on the internet, you may also use code in order
+to download it to your JupyterHub. There are several ways of doing this, so
+we’ll cover the simplest approach using the unix tool <code class="docutils literal notranslate"><span class="pre">wget</span></code>.</p>
+<ol class="arabic">
+<li><p class="first">Log in to your JupyterHub and open a terminal window.</p>
+<img alt="New terminal button." src="../../_images/new-terminal-button1.png" />
+</li>
+<li><p class="first">Use <code class="docutils literal notranslate"><span class="pre">wget</span></code> to download the file to your current directory in the terminal.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget &lt;MY-FILE-URL&gt;
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="section" id="example-downloading-the-gapminder-dataset">
+<h3>Example: Downloading the <a class="reference external" href="https://www.gapminder.org/">gapminder</a> dataset.<a class="headerlink" href="#example-downloading-the-gapminder-dataset" title="Permalink to this headline">¶</a></h3>
+<p>In this example we’ll download the <a class="reference external" href="https://www.gapminder.org/">gapminder</a>
+dataset, which contains information about country GDP and live expectancy over
+time. You can download it from your browser <a class="reference external" href="https://swcarpentry.github.io/python-novice-gapminder/files/python-novice-gapminder-data.zip">at this link</a>.</p>
+<ol class="arabic">
+<li><p class="first">Log in to your JupyterHub and open a terminal window.</p>
+<img alt="New terminal button." src="../../_images/new-terminal-button1.png" />
+</li>
+<li><p class="first">Use <code class="docutils literal notranslate"><span class="pre">wget</span></code> to download the gapminder dataset to your current directory in
+the terminal.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://swcarpentry.github.io/python-novice-gapminder/files/python-novice-gapminder-data.zip
+</pre></div>
+</div>
+</li>
+<li><p class="first">This is a <strong>zip</strong> file, so we’ll need to download a unix tool called “unzip”
+in order to unzip it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo -E apt-get install unzip
+</pre></div>
+</div>
+</li>
+<li><p class="first">Finally, unzip the the file:</p>
+<p>unzip python-novice-gapminder-data.zip</p>
+</li>
+<li><p class="first">Confirm that your data was unzipped. It could be in a folder called <code class="docutils literal notranslate"><span class="pre">data/</span></code>.</p>
+</li>
+</ol>
+<p>To learn how to <strong>share</strong> this data with new users on the JupyterHub,
+see <a class="reference internal" href="share-data.html#howto-content-share-data"><span class="std std-ref">Share data with your users</span></a>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">The Littlest JupyterHub</a></h1>
+
+
+
+<p class="blurb">
+    A simple JupyterHub distribution for 1-100 users
+    <br /> <br />
+    <strong>Documentation confusing?</strong> <a href="https://github.com/jupyterhub/the-littlest-jupyterhub/issues">File an issue!</a>
+    </p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=jupyterhub&repo=the-littlest-jupyterhub&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="nbgitpuller.html" title="previous chapter">Distributing materials to users with nbgitpuller</a></li>
+      <li>Next: <a href="share-data.html" title="next chapter">Share data with your users</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, JupyterHub Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../../_sources/howto/content/add-data.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/jupyterhub/the-littlest-jupyterhub" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

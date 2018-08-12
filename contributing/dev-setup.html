@@ -1,0 +1,174 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Setting up Development Environment &#8212; The Littlest JupyterHub v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Code Review guidelines" href="code-review.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="setting-up-development-environment">
+<span id="contributing-dev-setup"></span><h1>Setting up Development Environment<a class="headerlink" href="#setting-up-development-environment" title="Permalink to this headline">¶</a></h1>
+<p>The easiest &amp; safest way to develop &amp; test TLJH is with <a class="reference external" href="https://www.docker.com/">Docker</a>.</p>
+<ol class="arabic">
+<li><p class="first">Install Docker Community Edition by following the instructions on
+<a class="reference external" href="https://www.docker.com/community-edition">their website</a>.</p>
+</li>
+<li><p class="first">Clone the git repo (or your fork of it).</p>
+</li>
+<li><p class="first">Build a docker image that has a functional systemd in it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo docker build -t tljh-systemd .
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run a docker container with the image in the background, while bind mounting
+your TLJH repository under <code class="docutils literal notranslate"><span class="pre">/srv/src</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo docker run <span class="se">\</span>
+  --privileged <span class="se">\</span>
+  --detach <span class="se">\</span>
+  --name<span class="o">=</span>tljh-dev <span class="se">\</span>
+  --publish <span class="m">12000</span>:80 <span class="se">\</span>
+  --mount <span class="nv">type</span><span class="o">=</span>bind,source<span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>,target<span class="o">=</span>/srv/src <span class="se">\</span>
+  tljh-systemd
+</pre></div>
+</div>
+</li>
+<li><p class="first">Get a shell inside the running docker container.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo docker <span class="nb">exec</span> -it tljh-dev /bin/bash
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run the bootstrapper from inside the container (see step above):
+The container image is already set up to default to a <code class="docutils literal notranslate"><span class="pre">dev</span></code> install, so
+it’ll install from your local repo rather than from github.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 /srv/src/bootstrap/bootstrap.py</span>
+</pre></div>
+</div>
+<p>The primary hub environment will also be in your PATH already for convenience.</p>
+</li>
+<li><p class="first">You should be able to access the JupyterHub from your browser now at
+<a class="reference external" href="http://localhost:12000">http://localhost:12000</a>. Congratulations, you are
+set up to develop TLJH!</p>
+</li>
+<li><p class="first">Make some changes to the repository. You can test easily depending on what
+you changed.</p>
+<ul class="simple">
+<li>If you changed the <code class="docutils literal notranslate"><span class="pre">bootstrap/bootstrap.py</span></code> script or any of its dependencies,
+you can test it by running <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">/srv/src/bootstrap/bootstrap.py</span></code>.</li>
+<li>If you changed the <code class="docutils literal notranslate"><span class="pre">tljh/installer.py</span></code> code (or any of its dependencies),
+you can test it by running <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">tljh.installer</span></code>.</li>
+<li>If you changed <code class="docutils literal notranslate"><span class="pre">tljh/jupyterhub_config.py</span></code>, <code class="docutils literal notranslate"><span class="pre">tljh/configurer.py</span></code>,
+<code class="docutils literal notranslate"><span class="pre">/opt/tljh/config.yaml</span></code> or any of their dependencies, you only need to
+restart jupyterhub for them to take effect. <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">jupyterhub</span></code>
+should do that.</li>
+</ul>
+</li>
+</ol>
+<p><a class="reference internal" href="../troubleshooting/logs.html#troubleshooting-logs"><span class="std std-ref">Looking at Logs</span></a> has information on looking at various logs in the container
+to debug issues you might have.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">The Littlest JupyterHub</a></h1>
+
+
+
+<p class="blurb">
+    A simple JupyterHub distribution for 1-100 users
+    <br /> <br />
+    <strong>Documentation confusing?</strong> <a href="https://github.com/jupyterhub/the-littlest-jupyterhub/issues">File an issue!</a>
+    </p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=jupyterhub&repo=the-littlest-jupyterhub&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="code-review.html" title="previous chapter">Code Review guidelines</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, JupyterHub Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/contributing/dev-setup.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/jupyterhub/the-littlest-jupyterhub" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

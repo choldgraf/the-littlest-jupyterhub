@@ -1,0 +1,178 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Security Considerations &#8212; The Littlest JupyterHub v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Customizing the Installer" href="customizing-installer.html" />
+    <link rel="prev" title="Server Requirements" href="requirements.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="security-considerations">
+<h1>Security Considerations<a class="headerlink" href="#security-considerations" title="Permalink to this headline">¶</a></h1>
+<p>The Littlest JupyterHub is in pre-alpha state &amp; should not be used in
+security critical situations. We will try to keep things as secure as possible,
+but sometimes trade security for massive gains in convenience. This page contains
+information about the security model of The Littlest JupyterHub.</p>
+<div class="section" id="system-user-accounts">
+<h2>System user accounts<a class="headerlink" href="#system-user-accounts" title="Permalink to this headline">¶</a></h2>
+<p>Each JupyterHub user gets their own Unix user account created when they
+first start their server. This protects users from each other, gives them a
+home directory at a well known location, and allows sharing based on file system
+permissions.</p>
+<ol class="arabic simple">
+<li>The unix user account created for a JupyterHub user named <code class="docutils literal notranslate"><span class="pre">&lt;username&gt;</span></code> is
+<code class="docutils literal notranslate"><span class="pre">jupyter-&lt;username&gt;</span></code>. This prefix helps prevent clashes with users that
+already exist - otherwise a user named <code class="docutils literal notranslate"><span class="pre">root</span></code> can trivially gain full root
+access to your server.</li>
+<li>A home directory is created for the user under <code class="docutils literal notranslate"><span class="pre">/home/jupyter-&lt;username&gt;</span></code>.</li>
+<li>No password is set for this unix system user by default. The password used
+to log in to JupyterHub (if using an authenticator that requires a password)
+is not related to the unix user’s password in any form.</li>
+<li>All users created by The Littlest JupyterHub are added to the user group
+<code class="docutils literal notranslate"><span class="pre">jupyterhub-users</span></code>.</li>
+</ol>
+</div>
+<div class="section" id="sudo-access-for-admins">
+<h2><code class="docutils literal notranslate"><span class="pre">sudo</span></code> access for admins<a class="headerlink" href="#sudo-access-for-admins" title="Permalink to this headline">¶</a></h2>
+<p>JupyterHub admin users are added to the user group <code class="docutils literal notranslate"><span class="pre">jupyterhub-admins</span></code>,
+which is granted complete root access to the whole server with the <code class="docutils literal notranslate"><span class="pre">sudo</span></code>
+command on the terminal. No password required.</p>
+<p>This is a <strong>lot</strong> of power, and they can do pretty much anything they want to
+the server - look at other people’s work, modify it, break the server in cool &amp;
+funky ways, etc. This also means <strong>if an admin’s credentials are compromised (
+easy to guess password, password re-use, etc) the entire JupyterHub is compromised.</strong></p>
+</div>
+<div class="section" id="off-boarding-users-securely">
+<h2>Off-boarding users securely<a class="headerlink" href="#off-boarding-users-securely" title="Permalink to this headline">¶</a></h2>
+<p>When you delete users from the JupyterHub admin console, their unix user accounts
+are <strong>not</strong> removed. This means they might continue to have access to the server
+even after you remove them from JupyterHub. Admins should manually remove the user
+from the server &amp; archive their home directories as needed. For example, the
+following command deletes the unix user associated with the JupyterHub user <code class="docutils literal notranslate"><span class="pre">yuvipanda</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo userdel jupyter-yuvipanda
+</pre></div>
+</div>
+<p>If the user removed from the server is an admin, extra care must be taken
+since they could have modified the system earlier to continue giving them
+access.</p>
+</div>
+<div class="section" id="per-user-tmp">
+<h2>Per-user <code class="docutils literal notranslate"><span class="pre">/tmp</span></code><a class="headerlink" href="#per-user-tmp" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">/tmp</span></code> is shared by all users in most computing systems, and this has been
+a consistent source of security issues. The Littlest JupyterHub gives each
+user their own ephemeral <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> using the <a class="reference external" href="https://www.freedesktop.org/software/systemd/man/systemd.exec.html#PrivateTmp">PrivateTmp</a>
+feature of systemd.</p>
+</div>
+<div class="section" id="https">
+<h2>HTTPS<a class="headerlink" href="#https" title="Permalink to this headline">¶</a></h2>
+<p>Any internet-facing JupyterHub should use HTTPS to secure its traffic. For
+information on how to use HTTPS with your JupyterHub, see <a class="reference internal" href="../howto/admin/https.html#howto-admin-https"><span class="std std-ref">Enable HTTPS</span></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">The Littlest JupyterHub</a></h1>
+
+
+
+<p class="blurb">
+    A simple JupyterHub distribution for 1-100 users
+    <br /> <br />
+    <strong>Documentation confusing?</strong> <a href="https://github.com/jupyterhub/the-littlest-jupyterhub/issues">File an issue!</a>
+    </p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=jupyterhub&repo=the-littlest-jupyterhub&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="requirements.html" title="previous chapter">Server Requirements</a></li>
+      <li>Next: <a href="customizing-installer.html" title="next chapter">Customizing the Installer</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, JupyterHub Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/topic/security.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/jupyterhub/the-littlest-jupyterhub" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

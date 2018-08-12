@@ -1,0 +1,192 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>What does the installer do? &#8212; The Littlest JupyterHub v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Configuring TLJH with tljh-config" href="tljh-config.html" />
+    <link rel="prev" title="Customizing the Installer" href="customizing-installer.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="what-does-the-installer-do">
+<span id="topic-installer-actions"></span><h1>What does the installer do?<a class="headerlink" href="#what-does-the-installer-do" title="Permalink to this headline">¶</a></h1>
+<p>This document details what exactly the installer does to the machine it is
+run on.</p>
+<div class="section" id="apt-packages-installed">
+<h2><code class="docutils literal notranslate"><span class="pre">apt</span></code> Packages installed<a class="headerlink" href="#apt-packages-installed" title="Permalink to this headline">¶</a></h2>
+<p>The packages <code class="docutils literal notranslate"><span class="pre">python3</span></code> and <code class="docutils literal notranslate"><span class="pre">python3-venv</span></code> are installed from the apt repositories.
+Since we need an recent &amp; supported version of <code class="docutils literal notranslate"><span class="pre">nodejs</span></code>, we install it from
+<a class="reference external" href="https://github.com/nodesource/distributions">nodesource</a>.</p>
+</div>
+<div class="section" id="hub-environment">
+<h2>Hub environment<a class="headerlink" href="#hub-environment" title="Permalink to this headline">¶</a></h2>
+<p>JupyterHub is run from a python3 virtual environment located in <code class="docutils literal notranslate"><span class="pre">/opt/tljh/hub</span></code>. It
+uses the system’s installed python and is owned by root. It also contains a <code class="docutils literal notranslate"><span class="pre">npm</span></code>
+install of <a class="reference external" href="https://github.com/jupyterhub/configurable-http-proxy">configurable-http-proxy</a>
+and a binary install of <a class="reference external" href="http://traefik.io/">traefik</a>. This virtual environment is
+completely managed by TLJH.</p>
+</div>
+<div class="section" id="user-environment">
+<h2>User environment<a class="headerlink" href="#user-environment" title="Permalink to this headline">¶</a></h2>
+<p>By default, a <code class="docutils literal notranslate"><span class="pre">miniconda</span></code> environment is installed in <code class="docutils literal notranslate"><span class="pre">/opt/tljh/user</span></code>. This contains
+the notebook interface used to launch all users, and the various packages available to all
+users. The environment is owned by the <code class="docutils literal notranslate"><span class="pre">root</span></code> user. JupyterHub admins may use
+to <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">-E</span> <span class="pre">conda</span> <span class="pre">install</span></code> or <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">-E</span> <span class="pre">pip</span> <span class="pre">install</span></code> packages into this environment.</p>
+<p>This conda environment is added to <code class="docutils literal notranslate"><span class="pre">$PATH</span></code> for all users started with JupyterHub. If you
+are using <code class="docutils literal notranslate"><span class="pre">ssh</span></code> instead, you can activate this environment by running the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> /opt/tljh/user/bin/activate
+</pre></div>
+</div>
+<p>This should let you run various <code class="docutils literal notranslate"><span class="pre">conda</span></code> and <code class="docutils literal notranslate"><span class="pre">pip</span></code> commands. If  you run into errors like
+<code class="docutils literal notranslate"><span class="pre">Command</span> <span class="pre">'conda'</span> <span class="pre">not</span> <span class="pre">found</span></code>, try prefixing your command with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo <span class="nv">PATH</span><span class="o">=</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span> &lt;command&gt;
+</pre></div>
+</div>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">sudo</span></code> does not respect any custom environments you have activated. The <code class="docutils literal notranslate"><span class="pre">PATH=${PATH}</span></code>
+‘fixes’ that.</p>
+</div>
+<div class="section" id="tljh-config-symlink">
+<h2><code class="docutils literal notranslate"><span class="pre">tljh-config</span></code> symlink<a class="headerlink" href="#tljh-config-symlink" title="Permalink to this headline">¶</a></h2>
+<p>We create a symlink from <code class="docutils literal notranslate"><span class="pre">/usr/local/bin/tljh-config</span></code> to <code class="docutils literal notranslate"><span class="pre">/opt/tljh/hub/bin/tljh-cohnfig</span></code>, so users
+can run <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">-E</span> <span class="pre">tljh-config</span> <span class="pre">&lt;somethihng&gt;</span></code> from their terminal. While the user environment is added
+to users’ <code class="docutils literal notranslate"><span class="pre">$PATH</span></code> when they launch through JupyterHub, the hub environment is not. This makes it
+hard to access the <code class="docutils literal notranslate"><span class="pre">tljh-config</span></code> command used to change most config parameters. Hence we symlink the
+<code class="docutils literal notranslate"><span class="pre">tljh-config</span></code> command to <code class="docutils literal notranslate"><span class="pre">/usr/local/bin</span></code>, so it is directly accessible with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">-E</span> <span class="pre">tljh-config</span> <span class="pre">&lt;command&gt;</span></code>.</p>
+</div>
+<div class="section" id="systemd-units">
+<h2>Systemd Units<a class="headerlink" href="#systemd-units" title="Permalink to this headline">¶</a></h2>
+<p>TLJH places 3 systemd units on your computer. They all start on system startup.</p>
+<ol class="arabic simple">
+<li><code class="docutils literal notranslate"><span class="pre">jupyterhub.service</span></code> - starts the JupyterHub service.</li>
+<li><code class="docutils literal notranslate"><span class="pre">configurable-http-proxy.service</span></code> - starts the nodejs based proxy that is used by JupyterHub.</li>
+<li><code class="docutils literal notranslate"><span class="pre">traefik.service</span></code> - starts traefik proxy that manages HTTPS</li>
+</ol>
+<p>In addition, each running Jupyter user gets their own systemd unit of the name <code class="docutils literal notranslate"><span class="pre">jupyter-&lt;username&gt;</span></code>.</p>
+</div>
+<div class="section" id="user-groups">
+<h2>User groups<a class="headerlink" href="#user-groups" title="Permalink to this headline">¶</a></h2>
+<p>TLJH creates two user groups when installed:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal notranslate"><span class="pre">jupyterhub-users</span></code> contains all users managed by this JupyterHub</li>
+<li><code class="docutils literal notranslate"><span class="pre">jupyterhub-admins</span></code> contains all users with admin rights managed by this JupyterHub.</li>
+</ol>
+<p>When a new JupyterHub user logs in, a unix user is created for them. The unix user is always added
+to the <code class="docutils literal notranslate"><span class="pre">jupyterhub-users</span></code> group. If the user is an admin, they are added to the <code class="docutils literal notranslate"><span class="pre">jupyterhub-admins</span></code>
+group whenever they start / stop their notebook server.</p>
+<p>If you uninstall TLJH, you should probably remove all user accounts associated with both these
+user groups, and then remove the groups themselves. You might have to archive or delete the home
+directories of these users under <code class="docutils literal notranslate"><span class="pre">/home/</span></code>.</p>
+</div>
+<div class="section" id="passwordless-sudo-for-jupyterhub-admins">
+<h2>Passwordless <code class="docutils literal notranslate"><span class="pre">sudo</span></code> for JupyterHub admins<a class="headerlink" href="#passwordless-sudo-for-jupyterhub-admins" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">/etc/sudoers.d/jupyterhub-admins</span></code> is created to provide passwordless sudo for all JupyterHub
+admins. We also set it up to inherit <code class="docutils literal notranslate"><span class="pre">$PATH</span></code> with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">-E</span></code>, to more easily call <code class="docutils literal notranslate"><span class="pre">conda</span></code>,
+<code class="docutils literal notranslate"><span class="pre">pip</span></code>, etc.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">The Littlest JupyterHub</a></h1>
+
+
+
+<p class="blurb">
+    A simple JupyterHub distribution for 1-100 users
+    <br /> <br />
+    <strong>Documentation confusing?</strong> <a href="https://github.com/jupyterhub/the-littlest-jupyterhub/issues">File an issue!</a>
+    </p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=jupyterhub&repo=the-littlest-jupyterhub&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="customizing-installer.html" title="previous chapter">Customizing the Installer</a></li>
+      <li>Next: <a href="tljh-config.html" title="next chapter">Configuring TLJH with <code class="docutils literal notranslate"><span class="pre">tljh-config</span></code></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, JupyterHub Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/topic/installer-actions.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/jupyterhub/the-littlest-jupyterhub" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,265 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Installing on Digital Ocean &#8212; The Littlest JupyterHub v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Installing on Jetstream" href="jetstream.html" />
+    <link rel="prev" title="The Littlest JupyterHub" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="installing-on-digital-ocean">
+<span id="insatll-digitalocean"></span><h1>Installing on Digital Ocean<a class="headerlink" href="#installing-on-digital-ocean" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="goal">
+<h2>Goal<a class="headerlink" href="#goal" title="Permalink to this headline">¶</a></h2>
+<p>By the end of this tutorial, you should have a JupyterHub with some admin
+users and a user environment with packages you want installed running on
+<a class="reference external" href="https://digitalocean.com">DigitalOcean</a>.</p>
+</div>
+<div class="section" id="pre-requisites">
+<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>A DigitalOcean account with a payment method attached.</li>
+</ol>
+</div>
+<div class="section" id="step-1-installing-the-littlest-jupyterhub">
+<h2>Step 1: Installing The Littlest JupyterHub<a class="headerlink" href="#step-1-installing-the-littlest-jupyterhub" title="Permalink to this headline">¶</a></h2>
+<p>Let’s create the server on which we can run JupyterHub.</p>
+<ol class="arabic">
+<li><p class="first">Log in to <a class="reference external" href="https://digitalocean.com">DigitalOcean</a>. You might need to
+attach a credit card or other payment method to your account before you
+can proceed with the tutorial.</p>
+</li>
+<li><p class="first">Click the <strong>Create</strong> button on the top right, and select <strong>Droplets</strong> from
+the dropdown menu. DigitalOcean calls servers <strong>droplets</strong>.</p>
+<img alt="Dropdown menu on clicking 'create' in top right corner" src="../_images/create-menu.png" />
+<p>This takes you to a page titled <strong>Create Droplets</strong> that lets you configure
+your server.</p>
+</li>
+<li><p class="first">Under <strong>Choose an image</strong>, select <strong>18.04 x64</strong> under <strong>Ubuntu</strong>.</p>
+<img alt="Select 18.04 x64 image under Ubuntu" src="../_images/select-image.png" />
+</li>
+<li><p class="first">Under <strong>Choose a size</strong>, select the size of the server you want. The default
+(4GB RAM, 2CPUs, 20 USD / month) is not a bad start. You can resize your server
+later if you need.</p>
+<p>Check out our guide on How To <a class="reference internal" href="../howto/admin/resource-estimation.html#howto-admin-resource-estimation"><span class="std std-ref">Estimate Memory / CPU / Disk needed</span></a> to help pick
+how much Memory, CPU &amp; disk space your server needs.</p>
+</li>
+<li><p class="first">Scroll down to <strong>Select additional options</strong>, and select <strong>User data</strong>.</p>
+<img alt="Turn on User Data in additional options" src="../_images/additional-options.png" />
+<p>This opens up a textbox where you can enter a script that will be run
+when the server is created. We will use this to set up The Littlest JupyterHub
+on this server.</p>
+</li>
+<li><p class="first">Copy the text below, and paste it into the user data text box. Replace
+<code class="docutils literal notranslate"><span class="pre">&lt;admin-user-name&gt;</span></code> with the name of the first <strong>admin user</strong> for this
+JupyterHub. This admin user can log in after the JupyterHub is set up, and
+can configure it to their needs. <strong>Remember to add your username</strong>!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+curl https://raw.githubusercontent.com/jupyterhub/the-littlest-jupyterhub/master/bootstrap/bootstrap.py <span class="se">\</span>
+  <span class="p">|</span> sudo python3 - <span class="se">\</span>
+    --admin &lt;admin-user-name&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">See <a class="reference internal" href="../topic/installer-actions.html#topic-installer-actions"><span class="std std-ref">What does the installer do?</span></a> if you want to understand exactly what the installer is doing.
+<a class="reference internal" href="../topic/customizing-installer.html#topic-customizing-installer"><span class="std std-ref">Customizing the Installer</span></a> documents other options that can be passed to the installer.</p>
+</div>
+</li>
+<li><p class="first">Under the <strong>Finalize and create</strong> section, enter a <code class="docutils literal notranslate"><span class="pre">hostname</span></code> that descriptively
+identifies this server for you.</p>
+<img alt="Select suitable hostname for your server" src="../_images/hostname.png" />
+</li>
+<li><p class="first">Click the <strong>Create</strong> button! You will be taken to a different screen,
+where you can see progress of your server being created.</p>
+<img alt="Server being created" src="../_images/server-create-wait.png" />
+</li>
+<li><p class="first">In a few seconds your server will be created, and you can see the <strong>public IP</strong>
+used to access it.</p>
+<img alt="Server finished creating, public IP available" src="../_images/server-create-done.png" />
+</li>
+<li><p class="first">The Littlest JupyterHub is now installing in the background on your new server.
+It takes around 5-10 minutes for this installation to complete.</p>
+</li>
+<li><p class="first">Check if the installation is complete by copying the <strong>public ip</strong>
+of your server, and trying to access it with a browser. This will fail until
+the installation is complete, so be patient.</p>
+</li>
+<li><p class="first">When the installation is complete, it should give you a JupyterHub login page.</p>
+<img alt="JupyterHub log-in page" src="../_images/first-login.png" />
+</li>
+<li><p class="first">Login using the <strong>admin user name</strong> you used in step 6, and a password. Use a
+strong password &amp; note it down somewhere, since this will be the password for
+the admin user account from now on.</p>
+</li>
+<li><p class="first">Congratulations, you have a running working JupyterHub!</p>
+</li>
+</ol>
+</div>
+<div class="section" id="step-2-adding-more-users">
+<h2>Step 2: Adding more users<a class="headerlink" href="#step-2-adding-more-users" title="Permalink to this headline">¶</a></h2>
+<p>Most administration &amp; configuration of the JupyterHub can be done from the
+web UI directly. Let’s add a few users who can log in!</p>
+<ol class="arabic">
+<li><p class="first">Open the <strong>Control Panel</strong> by clicking the control panel button on the top
+right of your JupyterHub.</p>
+<img alt="Control panel button in notebook, top right" src="../_images/control-panel-button1.png" />
+</li>
+<li><p class="first">In the control panel, open the <strong>Admin</strong> link in the top left.</p>
+<img alt="Admin button in control panel, top left" src="../_images/admin-access-button1.png" />
+<p>This opens up the JupyterHub admin page, where you can add / delete users,
+start / stop peoples’ servers and see who is online.</p>
+</li>
+<li><p class="first">Click the <strong>Add Users</strong> button.</p>
+<img alt="Add Users button in the admin page" src="../_images/add-users-button1.png" />
+<p>A <strong>Add Users</strong> dialog box opens up.</p>
+</li>
+<li><p class="first">Type the names of users you want to add to this JupyterHub in the dialog box,
+one per line.</p>
+<img alt="Adding users with add users dialog" src="../_images/add-users-dialog1.png" />
+<p>You can tick the <strong>Admin</strong> checkbox if you want to give admin rights to all
+these users too.</p>
+</li>
+<li><p class="first">Click the <strong>Add Users</strong> button in the dialog box. Your users are now added
+to the JupyterHub! When they log in for the first time, they can set their
+password - and use it to log in again in the future.</p>
+</li>
+</ol>
+<p>Congratulations, you now have a multi user JupyterHub that you can add arbitrary
+users to!</p>
+</div>
+<div class="section" id="step-3-install-conda-pip-packages-for-all-users">
+<h2>Step 3: Install conda / pip packages for all users<a class="headerlink" href="#step-3-install-conda-pip-packages-for-all-users" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>User Environment</strong> is a conda environment that is shared by all users
+in the JupyterHub. Libraries installed in this environment are immediately
+available to all users. Admin users can install packages in this environment
+with <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">-E</span></code>.</p>
+<ol class="arabic">
+<li><p class="first">Log in as an admin user and open a Terminal in your Jupyter Notebook.</p>
+<img alt="New Terminal button under New menu" src="../_images/new-terminal-button3.png" />
+</li>
+<li><p class="first">Install <a class="reference external" href="https://anaconda.org/conda-forge/gdal">gdal</a> from <a class="reference external" href="https://conda-forge.org/">conda-forge</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo -E conda install -c conda-forge gdal
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">-E</span></code> is very important!</p>
+</li>
+<li><p class="first">Install <code class="docutils literal notranslate"><span class="pre">there</span></code> with <code class="docutils literal notranslate"><span class="pre">pip</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo -E pip install there
+</pre></div>
+</div>
+</li>
+</ol>
+<p>The packages <code class="docutils literal notranslate"><span class="pre">gdal</span></code> and <code class="docutils literal notranslate"><span class="pre">there</span></code> are now available to all users in JupyterHub.
+If a user already had a python notebook running, they have to restart their notebook’s
+kernel to make the new libraries available.</p>
+<p>See <a class="reference internal" href="../howto/envt/user-environment.html#howto-envt-user-environment"><span class="std std-ref">Install conda, pip or apt packages</span></a> for more information.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">The Littlest JupyterHub</a></h1>
+
+
+
+<p class="blurb">
+    A simple JupyterHub distribution for 1-100 users
+    <br /> <br />
+    <strong>Documentation confusing?</strong> <a href="https://github.com/jupyterhub/the-littlest-jupyterhub/issues">File an issue!</a>
+    </p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=jupyterhub&repo=the-littlest-jupyterhub&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">The Littlest JupyterHub</a></li>
+      <li>Next: <a href="jetstream.html" title="next chapter">Installing on Jetstream</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, JupyterHub Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/install/digitalocean.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/jupyterhub/the-littlest-jupyterhub" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

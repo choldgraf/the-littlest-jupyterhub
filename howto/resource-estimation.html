@@ -1,0 +1,180 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Estimate Memory / CPU / Disk needed &#8212; The Littlest JupyterHub v0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/custom.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Check your memory usage" href="nbresuse.html" />
+    <link rel="prev" title="Change default Notebook Interface for users" href="notebook-interfaces.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="estimate-memory-cpu-disk-needed">
+<span id="howto-resource-estimation"></span><h1>Estimate Memory / CPU / Disk needed<a class="headerlink" href="#estimate-memory-cpu-disk-needed" title="Permalink to this headline">¶</a></h1>
+<p>This page helps you estimate how much Memory / CPU / Disk the server you install
+The Littlest JupyterHub on should have. These are just guidelines to help
+with estimation - your actual needs will vary.</p>
+<div class="section" id="memory">
+<h2>Memory<a class="headerlink" href="#memory" title="Permalink to this headline">¶</a></h2>
+<p>Memory is usually the biggest determinant of server size in most JupyterHub
+installations.</p>
+<div class="math notranslate nohighlight">
+\[Server Memory Recommended = (Maximum concurrent users \times Maximum memory allowed per user) + 128MB\]</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">128MB</span></code> is overhead for TLJH and related services. <strong>Server Memory Recommended</strong>
+is the amount of Memory (RAM) the server you aquire should have - we recommend
+erring on the side of ‘more Memory’. The other terms are explained below.</p>
+<div class="section" id="maximum-concurrent-users">
+<h3>Maximum concurrent users<a class="headerlink" href="#maximum-concurrent-users" title="Permalink to this headline">¶</a></h3>
+<p>Even if your class has 100 students, most of them will not be using the JupyterHub
+actively at an given moment. At 2am on a normal night, maybe you’ll have 10 students
+using it. At 2am before a final, maybe you’ll have 60 students using it. Maybe
+you’ll have a lab session with all 100 of your students using it at the same time.</p>
+<p>The <em>maximum</em> number of users actively using the JupyterHub at any given time determines
+how much memory your server will need. You’ll get better at estimating this number
+over time. We generally recommend between 40-60% of your total class size to start with.</p>
+</div>
+<div class="section" id="maximum-memory-allowed-per-user">
+<h3>Maximum memory allowed per user<a class="headerlink" href="#maximum-memory-allowed-per-user" title="Permalink to this headline">¶</a></h3>
+<p>Depending on what kinda work your users are doing, they will use different amounts
+of memory. The easiest way to determine this is to run through a typical user
+workflow yourself, and measure how much memory is used. You can use <a class="reference internal" href="nbresuse.html#howto-nbresuse"><span class="std std-ref">Check your memory usage</span></a>
+to determine how much memory your user is using.</p>
+<p>A good rule of thumb is to take the maximum amount of memory you used during
+your session, and add 20-40% headroom for users to ‘play around’. This is the
+maximum amount of memory that should be given to each user.</p>
+<p>If users use <em>more</em> than this alloted amount of memory, their notebook kernel will restart.</p>
+</div>
+</div>
+<div class="section" id="cpu">
+<h2>CPU<a class="headerlink" href="#cpu" title="Permalink to this headline">¶</a></h2>
+<p>CPU estimation is more forgiving than Memory estimation. If there isn’t
+enough CPU for your users, their computation becomes very slow - but does not
+stop, unlike with RAM.</p>
+<div class="math notranslate nohighlight">
+\[Server CPU Recommended = (Maximum concurrent users \times Maximum CPU usage per user) + 0.2\]</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">0.2</span></code> is overhead for TLJH and related services. <strong>Server CPU Recommended</strong>
+is the amount of CPU the server you acquire should have. We recommend using
+the same process used to estimate Memory required for estimating CPU required.</p>
+</div>
+<div class="section" id="disk-space">
+<h2>Disk space<a class="headerlink" href="#disk-space" title="Permalink to this headline">¶</a></h2>
+<p>Unlike Memory &amp; CPU, disk space is predicated on <strong>total</strong> number of users,
+rather than <strong>maximum concurrent</strong> users.</p>
+<div class="math notranslate nohighlight">
+\[Server Disk Size Recommended = (Total \times Maximum disk usage per user) + 2GB\]</div>
+</div>
+<div class="section" id="resizing-your-server">
+<h2>Resizing your server<a class="headerlink" href="#resizing-your-server" title="Permalink to this headline">¶</a></h2>
+<p>Lots of cloud providers let your dynamically resize your server if you need it
+to be larger or smaller. Usually this requires a restart of the whole server -
+active users will be logged out, but otherwise usually nothing bad happens.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">The Littlest JupyterHub</a></h1>
+
+
+
+<p class="blurb">
+    A simple JupyterHub distribution for 1-100 users
+    <br /> <br />
+    <strong>Documentation confusing?</strong> <a href="https://github.com/jupyterhub/the-littlest-jupyterhub/issues">File an issue!</a>
+    </p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=jupyterhub&repo=the-littlest-jupyterhub&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="notebook-interfaces.html" title="previous chapter">Change default Notebook Interface for users</a></li>
+      <li>Next: <a href="nbresuse.html" title="next chapter">Check your memory usage</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, JupyterHub Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../_sources/howto/resource-estimation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/jupyterhub/the-littlest-jupyterhub" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

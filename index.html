@@ -1,0 +1,244 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>The Littlest JupyterHub &#8212; The Littlest JupyterHub v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" type="text/css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/copybutton.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installing on Digital Ocean" href="install/digitalocean.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-littlest-jupyterhub">
+<h1>The Littlest JupyterHub<a class="headerlink" href="#the-littlest-jupyterhub" title="Permalink to this headline">¶</a></h1>
+<p>A simple <a class="reference external" href="https://github.com/jupyterhub/jupyterhub">JupyterHub</a> distribution for
+a small (0-100) number of users on a single server. We recommend reading
+<a class="reference internal" href="topic/whentouse.html#topic-whentouse"><span class="std std-ref">When to use The Littlest JupyterHub</span></a> to determine if this is the right tool for you.</p>
+<div class="section" id="development-status">
+<h2>Development Status<a class="headerlink" href="#development-status" title="Permalink to this headline">¶</a></h2>
+<p>This project is currently in <strong>alpha</strong> state. Most things work, but we might
+still make breaking changes that have no clear upgrade pathway. We are targeting
+a v0.1 release sometime in mid-August 2018. Follow <a class="reference external" href="https://github.com/jupyterhub/the-littlest-jupyterhub/milestone/1">this milestone</a>
+to see progress towards the release!</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>The Littlest JupyterHub (TLJH) can run on any server that is running at least
+Ubuntu 18.04. We have a bunch of tutorials to get you started.</p>
+<ul>
+<li><p class="first">Tutorials to create a new server from scratch on a cloud provider &amp; run TLJH
+on it. These are <strong>recommended</strong> if you do not have much experience setting up
+servers.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install/digitalocean.html">Installing on Digital Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install/jetstream.html">Installing on Jetstream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install/google.html">Installing on Google Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install/custom-server.html">Installing on your own server</a></li>
+</ul>
+</div>
+</li>
+</ul>
+<p>Once you are ready to run your server for real,
+it’s a good idea to proceed directly to <a class="reference internal" href="howto/admin/https.html"><span class="doc">Enable HTTPS</span></a>.</p>
+</div>
+<div class="section" id="how-to-guides">
+<h2>How-To Guides<a class="headerlink" href="#how-to-guides" title="Permalink to this headline">¶</a></h2>
+<p>How-To guides answer the question ‘How do I…?’ for a lot of topics.</p>
+<div class="section" id="content-and-data">
+<h3>Content and Data<a class="headerlink" href="#content-and-data" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="howto/content/nbgitpuller.html">Distributing materials to users with nbgitpuller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto/content/add-data.html">Adding data to the JupyterHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto/content/share-data.html">Share data with your users</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="the-user-environment">
+<h3>The user environment<a class="headerlink" href="#the-user-environment" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="howto/envt/user-environment.html">Install conda, pip or apt packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto/envt/notebook-interfaces.html">Change default User Interface for users</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="authentication">
+<h3>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h3>
+<p>We have a special set of How-To Guides on using various forms of authentication
+with your JupyterHub. For more information on Authentication, see
+<a class="reference internal" href="topic/authenticator-configuration.html#topic-authenticator-configuration"><span class="std std-ref">Configuring JupyterHub authenticators</span></a></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="howto/auth/dummy.html">Authenticate <em>any</em> user with a single shared password</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto/auth/github.html">Authenticate using GitHub Usernames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto/auth/firstuse.html">Let users choose a password when they first log in</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="administration-and-security">
+<h3>Administration and security<a class="headerlink" href="#administration-and-security" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="howto/admin/admin-users.html">Add / Remove admin users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto/admin/resource-estimation.html">Estimate Memory / CPU / Disk needed</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto/admin/nbresuse.html">Check your memory usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howto/admin/https.html">Enable HTTPS</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="topic-guides">
+<h2>Topic Guides<a class="headerlink" href="#topic-guides" title="Permalink to this headline">¶</a></h2>
+<p>Topic guides provide in-depth explanations of specific topics.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="topic/whentouse.html">When to use The Littlest JupyterHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic/requirements.html">Server Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic/security.html">Security Considerations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic/customizing-installer.html">Customizing the Installer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic/installer-actions.html">What does the installer do?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic/tljh-config.html">Configuring TLJH with <code class="docutils literal notranslate"><span class="pre">tljh-config</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic/authenticator-configuration.html">Configuring JupyterHub authenticators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topic/escape-hatch.html">Custom <code class="docutils literal notranslate"><span class="pre">jupyterhub_config.py</span></code> snippets</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>In time, all systems have issues that need to be debugged. Troubleshooting
+guides help you find what is broken &amp; hopefully fix it.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting/logs.html">Looking at Logs</a></li>
+</ul>
+</div>
+<p>Often, your issues are not related to TLJH itself but to the cloud provider
+your server is running on. We have some documentation on common issues you
+might run into with various providers and how to fix them. We welcome contributions
+here to better support your favorite provider!</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting/providers/google.html">Troubleshooting issues on Google Cloud</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
+<p>We want you to contribute to TLJH in the ways that are most useful
+and exciting to you. This section contains documentation helpful
+to people contributing in various ways.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing/docs.html">Writing documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/code-review.html">Code Review guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing/dev-setup.html">Setting up Development Environment</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">The Littlest JupyterHub</a></h1>
+
+
+
+<p class="blurb">
+    A simple JupyterHub distribution for 1-100 users
+    <br /> <br />
+    <strong>Documentation confusing?</strong> <a href="https://github.com/jupyterhub/the-littlest-jupyterhub/issues">File an issue!</a>
+    </p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=jupyterhub&repo=the-littlest-jupyterhub&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="install/digitalocean.html" title="next chapter">Installing on Digital Ocean</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, JupyterHub Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/jupyterhub/the-littlest-jupyterhub" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
